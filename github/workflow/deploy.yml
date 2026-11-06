@@ -1,0 +1,33 @@
+name: Server CI/CD Pipeline
+
+# Trigger the workflow on push to the main branch
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-deploy:
+    # This tells GitHub to use your self-hosted runner instead of GitHub's cloud runners
+    runs-on: self-hosted
+
+    steps:
+      # 1. Checkout your repository code onto the server
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Example: Print the current user and check directory contents
+      - name: Verify runner environment
+        run: |
+          echo "Running as user:"
+          whoami
+          echo "Current working directory:"
+          pwd
+
+      # 3. Example task: Copy files to your web server directory (/var/www/html)
+      - name: Deploy to Web Root
+        run: |
+          echo "Deploying files..."
+          # Adjust the destination path based on your setup
+          # Note: Ensure your user has write access to this folder or use sudo if configured
+          cp -r * /var/www/html/
+          echo "Deployment complete!"
